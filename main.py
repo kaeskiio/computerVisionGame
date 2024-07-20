@@ -134,8 +134,7 @@ while running:
             for i, choice in enumerate(choices):
                 row = i // 2
                 col = i % 2
-                choice_box_x = SCREEN_WIDTH // 2 - (CHOICE_BOX_WIDTH + CHOICE_BOX_GAP) + col * (
-                            CHOICE_BOX_WIDTH + CHOICE_BOX_GAP)
+                choice_box_x = SCREEN_WIDTH // 2 - (CHOICE_BOX_WIDTH + CHOICE_BOX_GAP) + col * (CHOICE_BOX_WIDTH + CHOICE_BOX_GAP)
                 choice_box_y = SCREEN_HEIGHT - 120 + row * (CHOICE_BOX_HEIGHT + CHOICE_BOX_GAP)
                 if choice_box_x < mouse_x < choice_box_x + CHOICE_BOX_WIDTH and choice_box_y < mouse_y < choice_box_y + CHOICE_BOX_HEIGHT:
                     if choice == correct_answer:
@@ -149,6 +148,14 @@ while running:
             next_round_button_y = SCREEN_HEIGHT - 5 - BUTTON_HEIGHT - 20
             if game_over and next_round_button_x < mouse_x < next_round_button_x + BUTTON_WIDTH and next_round_button_y < mouse_y < next_round_button_y + BUTTON_HEIGHT:
                 new_round()
+
+            # Check if the "Show Picture" button was clicked
+            show_picture_button_x = SCREEN_WIDTH - BUTTON_WIDTH - 600
+            show_picture_button_y = SCREEN_HEIGHT - 5 - BUTTON_HEIGHT - 20
+            if game_over and show_picture_button_x < mouse_x < show_picture_button_x + BUTTON_WIDTH and show_picture_button_y < mouse_y < show_picture_button_y + BUTTON_HEIGHT:
+                for x in range(IMAGE_WIDTH // BLOCK_SIZE):
+                    for y in range(IMAGE_HEIGHT // BLOCK_SIZE):
+                        revealed_blocks.add((x, y))
 
         if event.type == pygame.KEYDOWN and game_over:
             if event.key == pygame.K_r:
@@ -168,6 +175,8 @@ while running:
     if game_over:
         # Draw the "Next Round" button
         draw_button("Next Round", SCREEN_WIDTH - BUTTON_WIDTH - 30, SCREEN_HEIGHT - 5 - BUTTON_HEIGHT - 20,
+                    BUTTON_WIDTH, BUTTON_HEIGHT)
+        draw_button("Show Picture", SCREEN_WIDTH - BUTTON_WIDTH - 600, SCREEN_HEIGHT - 5 - BUTTON_HEIGHT - 20,
                     BUTTON_WIDTH, BUTTON_HEIGHT)
 
     # Draw the choices with feedback
